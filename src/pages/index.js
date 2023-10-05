@@ -4,7 +4,7 @@ import Button from "@/components/button";
 export default function Home() {
   return (
     <Layout>
-      <h1 className="mt-10 ml-[10px] mb-[84px] text-lg font-bold text-dark-blue">
+      <h1 className="mt-[62px] ml-[10px] mb-[84px] text-lg font-bold text-dark-blue">
         Выберите действие
       </h1>
       <div className="flex flex-col gap-5">
