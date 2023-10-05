@@ -3,9 +3,9 @@ import Footer from "@/components/footer";
 
 export default function Layout({ children }) {
   return (
-    <div className="px-7">
+    <div className="">
       <Header />
-      <main className="min-h-[calc(100vh-64px-80px)]">{children}</main>
+      <main className="px-7 min-h-[calc(100vh-210px)]">{children}</main>
       <Footer />
     </div>
   );
