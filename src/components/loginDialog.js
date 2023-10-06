@@ -42,7 +42,7 @@ const LoginDialog = ({ isOpen, setIsOpen }) => {
     <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
       <div className="fixed inset-0 bg-dark-blue/90" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-7">
-        <Dialog.Panel className="relative modal-bg-gradient w-full px-10 pt-[60px] pb-[50px] rounded-[35px]">
+        <Dialog.Panel className="max-w-[430px] relative modal-bg-gradient w-full px-10 pt-[60px] pb-[50px] rounded-[35px]">
           <CloseButton onClick={closeModal} />
           <Dialog.Title className="text-white text-xl font-bold text-center mb-[52px]">
             Логин
