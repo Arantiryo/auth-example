@@ -9,8 +9,6 @@ export const fetcher = (url) =>
     },
   }).then((res) => res.json());
 
-// export const avatarFetcher = (...args) => getAvatar(...args);
-
 export const toBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();

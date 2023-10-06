@@ -12,12 +12,6 @@ const AccountImagePage = () => {
   const imageUrl = fileObject ? URL.createObjectURL(fileObject) : null;
   const inputRef = useRef(null);
 
-  // if (data?.error === "AuthToken invalid or expired") {
-  //   Cookies.remove("token");
-  //   router.push("/");
-  //   return;
-  // }
-
   const handleClick = () => {
     inputRef.current.click();
   };
@@ -110,10 +104,7 @@ const SaveImage = ({ fileObject, setFileObject }) => {
   const handleSave = async () => {
     try {
       const imageBase64 = await toBase64(fileObject);
-      console.log("imageBase64", imageBase64);
-
       const response = await uploadAvatar({ image: imageBase64 });
-      console.log("response", response);
 
       if (response?.error) {
         Cookies.remove("token");

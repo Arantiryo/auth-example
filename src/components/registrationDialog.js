@@ -6,7 +6,6 @@ import Checkbox from "@/components/shared/checkbox";
 import Button from "@/components/shared/button";
 import { registerUser } from "@/utils/auth";
 import { useState } from "react";
-// import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
@@ -81,7 +80,6 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
                 minLength={6}
                 isRequired={true}
                 error={errorMsg}
-                // inputRef={confirmRef}
               />
             </div>
             <div className="flex gap-3 mb-6">

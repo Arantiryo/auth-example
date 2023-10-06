@@ -6,7 +6,6 @@ import Checkbox from "@/components/shared/checkbox";
 import Button from "@/components/shared/button";
 import { loginUser } from "@/utils/auth";
 import { useState } from "react";
-// import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 

@@ -15,6 +15,6 @@ export function middleware(request) {
   }
 
   if (authRoutes.includes(request.nextUrl.pathname) && token) {
-    return NextResponse.redirect(new URL("/account/image", request.url));
+    return NextResponse.redirect(new URL("/account", request.url));
   }
 }

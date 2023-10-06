@@ -9,7 +9,6 @@ export default function Home() {
 
   return (
     <>
-      {/* <Layout> */}
       <h1 className="pt-[62px] ml-[10px] mb-[84px] text-lg font-bold text-dark-blue">
         Выберите действие
       </h1>
@@ -27,7 +26,6 @@ export default function Home() {
           Registration
         </Button>
       </div>
-      {/* </Layout> */}
       <RegistrationDialog
         isOpen={isRegModalOpen}
         setIsOpen={setIsRegModalOpen}
