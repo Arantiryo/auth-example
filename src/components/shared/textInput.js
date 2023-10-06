@@ -8,6 +8,8 @@ const TextInput = ({
   isRequired = false,
   iconPath,
   minLength,
+  error = "",
+  // inputRef,
 }) => {
   return (
     <div className="relative">
@@ -15,7 +17,7 @@ const TextInput = ({
         {label}
       </label>
       <Image
-        className="absolute pointer-events-none top-[55%] transform left-4 w-5 h-5"
+        className="absolute pointer-events-none top-[40px] transform left-4 w-5 h-5"
         width={20}
         height={20}
         src={iconPath}
@@ -25,13 +27,17 @@ const TextInput = ({
         className={`${className} w-full mt-[9px] rounded-[22.5px] bg-white pl-[50px] pr-[20px] py-[15px]`}
         type={type}
         id={id}
+        name={id}
         placeholder={label}
         required={isRequired}
         autoComplete="off"
         minLength={minLength ? minLength : null}
+        // ref={inputRef ? inputRef : null}
         // pattern={type === "tel" ? "[0-9]{8,12}" : ".*"}
         // title={type === "tel" ? "Must only contain digits 0 through 9." : ""}
       />
+      {/* {!!error && <span className="text-sm mt-3 text-red-500">{error}</span>} */}
+      <span className="text-sm mt-3 text-red-500">{!!error ? error : ""}</span>
     </div>
   );
 };

@@ -1,9 +1,36 @@
 import { Dialog } from "@headlessui/react";
 import Image from "next/image";
-import TextInput from "./shared/textInput";
+import Link from "next/link";
+import TextInput from "@/components/shared/textInput";
+import Checkbox from "@/components/shared/checkbox";
+import Button from "@/components/shared/button";
+import { useState } from "react";
 
 const RegistrationDialog = ({ isOpen, setIsOpen }) => {
+  const [isTncChecked, setIsTncChecked] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
   const closeModal = () => setIsOpen(false);
+  const toggleTnc = () => setIsTncChecked((prev) => !prev);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const target = event.currentTarget;
+
+    const email = target["reg-email"].value;
+    const password = target["reg-password"].value;
+    const confirmPassword = target["reg-confirm-password"].value;
+
+    if (password !== confirmPassword) {
+      setErrorMsg("Пароли не совпадают.");
+      return;
+    } else {
+      setErrorMsg("");
+    }
+
+    console.log("form submitted");
+  };
 
   return (
     <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
@@ -14,8 +41,8 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
           <Dialog.Title className="text-white text-xl font-bold text-center mb-[52px]">
             Регистрация
           </Dialog.Title>
-          <Dialog.Description>
-            <div className="flex flex-col gap-[22px]">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-[22px] mb-[30px]">
               <TextInput
                 label="Электронная почта"
                 id="reg-email"
@@ -33,14 +60,30 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
               />
               <TextInput
                 label="Подтвердите пароль"
-                id="reg-repeat-password"
+                id="reg-confirm-password"
                 type="password"
                 iconPath="/lock.svg"
                 minLength={5}
                 isRequired={true}
+                error={errorMsg}
+                // inputRef={confirmRef}
               />
             </div>
-          </Dialog.Description>
+            <div className="flex gap-3 mb-6">
+              <Checkbox isActive={isTncChecked} toggle={toggleTnc} />
+              <p className="text-sm text-white select-none">
+                Нажимая кнопку, вы подтверждаете, что ознакомились и
+                соглашаетесь с{" "}
+                <Link className="cursor-pointer underline" href="/about/tnc">
+                  Условиями Соглашения
+                </Link>
+                ! Правилами и политикой конфиденциальности компании
+              </p>
+            </div>
+            <Button type="submit" className="yellow-gradient purple-shadow">
+              Зарегистрироваться
+            </Button>
+          </form>
         </Dialog.Panel>
       </div>
     </Dialog>
@@ -50,7 +93,7 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
 const CloseButton = ({ onClick }) => {
   return (
     <div
-      className="bg-yellow absolute top-0 right-0 w-[38px] h-[38px] rounded-full flex items-center justify-center"
+      className="bg-yellow cursor-pointer absolute top-0 right-0 w-[38px] h-[38px] rounded-full flex items-center justify-center"
       onClick={onClick}
     >
       <Image src="/close.svg" alt="close dialog" width={15} height={15} />
