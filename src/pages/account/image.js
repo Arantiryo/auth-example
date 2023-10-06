@@ -3,12 +3,20 @@ import Image from "next/image";
 import Button from "@/components/shared/button";
 import { useRef, useState } from "react";
 import { toBase64, uploadAvatar } from "@/utils/files";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const AccountImagePage = () => {
   const [message, setMessage] = useState("");
   const [fileObject, setFileObject] = useState(null);
   const imageUrl = fileObject ? URL.createObjectURL(fileObject) : null;
   const inputRef = useRef(null);
+
+  // if (data?.error === "AuthToken invalid or expired") {
+  //   Cookies.remove("token");
+  //   router.push("/");
+  //   return;
+  // }
 
   const handleClick = () => {
     inputRef.current.click();
@@ -97,6 +105,7 @@ const UploadImage = ({ inputRef, handleFileChange, handleClick, message }) => {
 const SaveImage = ({ fileObject, setFileObject }) => {
   const [message, setMessage] = useState("");
   const [isSaved, setIsSaved] = useState(false);
+  const router = useRouter();
 
   const handleSave = async () => {
     try {
@@ -106,7 +115,16 @@ const SaveImage = ({ fileObject, setFileObject }) => {
       const response = await uploadAvatar({ image: imageBase64 });
       console.log("response", response);
 
-      if (response.ok) setIsSaved(true);
+      if (response?.error) {
+        Cookies.remove("token");
+        router.push("/");
+        return;
+      }
+
+      if (response.ok) {
+        setIsSaved(true);
+        setTimeout(() => router.push("/account"), 5000);
+      }
     } catch (e) {
       console.log(e);
       setMessage("Что-то пошло не так. Пожалуйста, попробуйте еще раз.");
@@ -130,7 +148,9 @@ const SaveImage = ({ fileObject, setFileObject }) => {
       </Button>
       {!!message && <p className="mt-10 text-sm text-red-500">{message}</p>}
       {isSaved && (
-        <p className="mt-10 text-sm text-green-500">Аватар успешно загружен!</p>
+        <p className="mt-10 text-sm text-green-500">
+          Аватар успешно загружен! Вы будете перенаправлены на страницу профиля.
+        </p>
       )}
     </div>
   );

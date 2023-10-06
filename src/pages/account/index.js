@@ -2,6 +2,7 @@ import { fetcher } from "@/utils/files";
 import { API } from "@/utils/auth";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const AccountPage = () => {
   const { data, error, isLoading } = useSWR(`${API}/account/image`, fetcher, {
@@ -15,6 +16,7 @@ const AccountPage = () => {
   console.log("data?.error", data?.error);
 
   if (data?.error === "AuthToken invalid or expired") {
+    Cookies.remove("token");
     router.push("/");
     return;
   }
