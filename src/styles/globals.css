@@ -33,6 +33,10 @@ body {
     ) !important;
   }
 
+  .modal-bg-gradient {
+    background: linear-gradient(180deg, #4936d4 0%, #6835d4 100%);
+  }
+
   .purple-shadow {
     box-shadow: 0px 4px 8px 0px rgba(67, 41, 124, 0.25);
   }
