@@ -1,23 +1,25 @@
-const Button = ({
+const FileInput = ({
   className = "",
   children,
-  onClick,
+  // onClick,
   isDisabled = false,
+  accept,
   name,
-  type,
+  // type,
 }) => {
   return (
     <button
       className={`${className} ${isDisabled ? "!text-gray" : ""} 
         w-full text-white h-[65px] rounded-[50px]`}
-      onClick={() => (onClick ? onClick() : null)}
+      // onClick={() => (onClick ? onClick() : null)}
       disabled={isDisabled}
+      accept={!!accept ? accept : null}
       name={!!name ? name : null}
-      type={type}
+      type="file"
     >
       {children}
     </button>
   );
 };
 
-export default Button;
+export default FileInput;
