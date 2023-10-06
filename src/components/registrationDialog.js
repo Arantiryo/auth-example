@@ -6,12 +6,14 @@ import Checkbox from "@/components/shared/checkbox";
 import Button from "@/components/shared/button";
 import { registerUser } from "@/utils/auth";
 import { useState } from "react";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 const RegistrationDialog = ({ isOpen, setIsOpen }) => {
   const [isTncChecked, setIsTncChecked] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const router = useRouter();
 
   const closeModal = () => {
     setErrorMsg("");
@@ -39,7 +41,7 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
 
     if (response.ok) {
       Cookies.set("token", response.token);
-      redirect("/account/image");
+      router.push("/account/image");
     } else {
       setErrorMsg(Object.values(response.errors).join(", ") || "Unknown error");
     }

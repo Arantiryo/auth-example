@@ -2,9 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/shared/button";
 import { useRef, useState } from "react";
+import { toBase64, uploadAvatar } from "@/utils/files";
+
+import Cookies from "js-cookie";
 
 const AccountImagePage = () => {
   const [message, setMessage] = useState("");
+  const [fileObject, setFileObject] = useState(null);
+
+  const imageUrl = fileObject ? URL.createObjectURL(fileObject) : null;
+
+  // console.log(Cookies.get("token"));
+
   // const handleSubmit = (event) => {
   //   event.preventDefault();
 
@@ -25,7 +34,7 @@ const AccountImagePage = () => {
 
     console.log("fileObj is", fileObj);
 
-    const fileSize = fileObj.size / 1024 / 1024; // in MiB
+    const fileSize = fileObj.size / 1024 / 1024;
     if (fileSize >= 5) {
       setMessage(
         "Размер файла превышает 5Мб, поажлуйста, выберете другой файл."
@@ -35,28 +44,57 @@ const AccountImagePage = () => {
       setMessage("");
     }
 
-    // 👇️ reset file input
+    // reset file input
     event.target.value = null;
 
-    // 👇️ is now empty
-    console.log(event.target.files);
+    // is now empty
+    // console.log(event.target.files);
 
-    // 👇️ can still access file object here
-    console.log(fileObj);
-    console.log(fileObj.name);
+    // can still access file object here
+    // console.log(fileObj);
+    // console.log(fileObj.name);
+    setFileObject(fileObj);
   };
 
   return (
     <div className="pt-9">
       <Navigation className="mb-5" />
-      <h1 className="mb-9 text-lg font-bold text-dark-blue">
-        Загрузка аватара
-      </h1>
-      <p className="mb-[43px] text-dark-blue">
-        Загрузите файл размером до 5Мб
-        <br /> По формату: JPG, PNG, GIF
-      </p>
-      {/* <form onSubmit={handleSubmit}> */}
+      <div>
+        <h1 className="mb-9 text-lg font-bold text-dark-blue">
+          {fileObject ? "Фото для аватарки" : "Загрузка аватара"}
+        </h1>
+        {fileObject ? (
+          <div className="mb-8 rounded-[12px] bg-light-gray flex items-center justify-center w-full h-[200px]">
+            <img
+              className="max-w-[164px] max-h-[164px]"
+              src={imageUrl}
+              alt="avatar image"
+            />
+          </div>
+        ) : (
+          <p className="mb-[43px] text-dark-blue">
+            Загрузите файл размером до 5Мб
+            <br /> По формату: JPG, PNG, GIF
+          </p>
+        )}
+        {fileObject ? (
+          <SaveImage fileObject={fileObject} setFileObject={setFileObject} />
+        ) : (
+          <UploadImage
+            inputRef={inputRef}
+            handleFileChange={handleFileChange}
+            handleClick={handleClick}
+            message={message}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const UploadImage = ({ inputRef, handleFileChange, handleClick, message }) => {
+  return (
+    <>
       <input
         className="hidden"
         ref={inputRef}
@@ -72,7 +110,48 @@ const AccountImagePage = () => {
         Выбрать файл
       </Button>
       {!!message && <p className="mt-10 text-sm text-red-500">{message}</p>}
-      {/* </form> */}
+    </>
+  );
+};
+
+const SaveImage = ({ fileObject, setFileObject }) => {
+  const [message, setMessage] = useState("");
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleSave = async () => {
+    try {
+      const imageBase64 = await toBase64(fileObject);
+      console.log("imageBase64", imageBase64);
+
+      const response = await uploadAvatar({ image: imageBase64 });
+      console.log("response", response);
+
+      if (response.ok) setIsSaved(true);
+    } catch (e) {
+      console.log(e);
+      setMessage("Что-то пошло не так. Пожалуйста, попробуйте еще раз.");
+    }
+  };
+
+  const handleCancel = () => {
+    setFileObject(null);
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <Button className="dark-purple-gradient blue-shadow" onClick={handleSave}>
+        Сохранить
+      </Button>
+      <Button
+        className="light-purple-gradient blue-shadow !text-dark-blue"
+        onClick={handleCancel}
+      >
+        Отменить
+      </Button>
+      {!!message && <p className="mt-10 text-sm text-red-500">{message}</p>}
+      {isSaved && (
+        <p className="mt-10 text-sm text-green-500">Аватар успешно загружен!</p>
+      )}
     </div>
   );
 };

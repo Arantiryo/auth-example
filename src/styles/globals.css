@@ -33,6 +33,10 @@ body {
     ) !important;
   }
 
+  .light-purple-gradient {
+    background: linear-gradient(272.88deg, #edebfb 4.95%, #f0f0fc 93.62%);
+  }
+
   .modal-bg-gradient {
     background: linear-gradient(180deg, #4936d4 0%, #6835d4 100%);
   }
