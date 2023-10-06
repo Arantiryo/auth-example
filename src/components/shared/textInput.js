@@ -36,8 +36,7 @@ const TextInput = ({
         // pattern={type === "tel" ? "[0-9]{8,12}" : ".*"}
         // title={type === "tel" ? "Must only contain digits 0 through 9." : ""}
       />
-      {/* {!!error && <span className="text-sm mt-3 text-red-500">{error}</span>} */}
-      <span className="text-sm mt-3 text-red-500">{!!error ? error : ""}</span>
+      <div className=" pt-[10px] text-red-500">{!!error ? error : ""}</div>
     </div>
   );
 };
