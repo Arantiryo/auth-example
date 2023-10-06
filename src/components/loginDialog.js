@@ -4,12 +4,12 @@ import Link from "next/link";
 import TextInput from "@/components/shared/textInput";
 import Checkbox from "@/components/shared/checkbox";
 import Button from "@/components/shared/button";
-import { registerUser } from "@/utils/auth";
+import { loginUser } from "@/utils/auth";
 import { useState } from "react";
 import { redirect } from "next/navigation";
 import Cookies from "js-cookie";
 
-const RegistrationDialog = ({ isOpen, setIsOpen }) => {
+const LoginDialog = ({ isOpen, setIsOpen }) => {
   const [isTncChecked, setIsTncChecked] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -24,18 +24,12 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
 
     const target = event.currentTarget;
 
-    const email = target["reg-email"].value;
-    const password = target["reg-password"].value;
-    const confirmPassword = target["reg-confirm-password"].value;
+    const email = target["login-email"].value;
+    const password = target["login-password"].value;
 
-    if (password !== confirmPassword) {
-      setErrorMsg("Пароли не совпадают.");
-      return;
-    } else {
-      setErrorMsg("");
-    }
+    const response = await loginUser(email, password);
 
-    const response = await registerUser(email, password);
+    console.log("response", response);
 
     if (response.ok) {
       Cookies.set("token", response.token);
@@ -52,35 +46,28 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
         <Dialog.Panel className="relative modal-bg-gradient w-full px-10 pt-[60px] pb-[50px] rounded-[35px]">
           <CloseButton onClick={closeModal} />
           <Dialog.Title className="text-white text-xl font-bold text-center mb-[52px]">
-            Регистрация
+            Логин
           </Dialog.Title>
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-[22px] mb-[30px]">
+            <div className="flex flex-col gap-[22px] mb-[22px]">
               <TextInput
                 label="Электронная почта"
-                id="reg-email"
+                id="login-email"
                 type="email"
                 iconPath="/phone.svg"
                 isRequired={true}
               />
               <TextInput
                 label="Пароль"
-                id="reg-password"
+                id="login-password"
                 type="password"
                 iconPath="/lock.svg"
-                minLength={6}
-                isRequired={true}
-              />
-              <TextInput
-                label="Подтвердите пароль"
-                id="reg-confirm-password"
-                type="password"
-                iconPath="/lock.svg"
-                minLength={6}
-                isRequired={true}
                 error={errorMsg}
-                // inputRef={confirmRef}
+                isRequired={true}
               />
+            </div>
+            <div className="mb-5 text-light-blue w-fit select-none text-sm underline cursor-pointer">
+              Забыли пароль?
             </div>
             <div className="flex gap-3 mb-6">
               <Checkbox isActive={isTncChecked} toggle={toggleTnc} />
@@ -101,7 +88,7 @@ const RegistrationDialog = ({ isOpen, setIsOpen }) => {
               isDisabled={!isTncChecked}
               className="yellow-gradient purple-shadow"
             >
-              Зарегистрироваться
+              Войти
             </Button>
           </form>
         </Dialog.Panel>
@@ -121,4 +108,4 @@ const CloseButton = ({ onClick }) => {
   );
 };
 
-export default RegistrationDialog;
+export default LoginDialog;

@@ -24,7 +24,8 @@ const TextInput = ({
         alt="input icon"
       />
       <input
-        className={`${className} w-full mt-[9px] rounded-[22.5px] bg-white pl-[50px] pr-[20px] py-[15px]`}
+        className={`${className} ${!!error && "mb-[10px]"} 
+          w-full mt-[9px] rounded-[22.5px] bg-white pl-[50px] pr-[20px] py-[15px]`}
         type={type}
         id={id}
         name={id}
@@ -36,7 +37,8 @@ const TextInput = ({
         // pattern={type === "tel" ? "[0-9]{8,12}" : ".*"}
         // title={type === "tel" ? "Must only contain digits 0 through 9." : ""}
       />
-      <div className=" pt-[10px] text-red-500">{!!error ? error : ""}</div>
+      {!!error && <span className="text-red-500">{error}</span>}
+      {/* <div className=" pt-[10px] text-red-500">{!!error ? error : ""}</div> */}
     </div>
   );
 };

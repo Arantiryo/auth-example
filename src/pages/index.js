@@ -2,6 +2,7 @@ import Layout from "@/components/layout";
 import Button from "@/components/shared/button";
 import { useState } from "react";
 import RegistrationDialog from "@/components/registrationDialog";
+import LoginDialog from "@/components/loginDialog";
 
 export default function Home() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -14,7 +15,12 @@ export default function Home() {
           Выберите действие
         </h1>
         <div className="flex flex-col gap-5">
-          <Button className="yellow-gradient purple-shadow">Login</Button>
+          <Button
+            className="yellow-gradient purple-shadow"
+            onClick={() => setIsLoginModalOpen(true)}
+          >
+            Login
+          </Button>
           <Button
             className="dark-purple-gradient blue-shadow"
             onClick={() => setIsRegModalOpen(true)}
@@ -27,6 +33,7 @@ export default function Home() {
         isOpen={isRegModalOpen}
         setIsOpen={setIsRegModalOpen}
       />
+      <LoginDialog isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
     </>
   );
 }
