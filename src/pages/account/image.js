@@ -4,22 +4,10 @@ import Button from "@/components/shared/button";
 import { useRef, useState } from "react";
 import { toBase64, uploadAvatar } from "@/utils/files";
 
-import Cookies from "js-cookie";
-
 const AccountImagePage = () => {
   const [message, setMessage] = useState("");
   const [fileObject, setFileObject] = useState(null);
-
   const imageUrl = fileObject ? URL.createObjectURL(fileObject) : null;
-
-  // console.log(Cookies.get("token"));
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   console.log("select file");
-  // };
-
   const inputRef = useRef(null);
 
   const handleClick = () => {
@@ -31,8 +19,6 @@ const AccountImagePage = () => {
     if (!fileObj) {
       return;
     }
-
-    console.log("fileObj is", fileObj);
 
     const fileSize = fileObj.size / 1024 / 1024;
     if (fileSize >= 5) {
@@ -47,12 +33,6 @@ const AccountImagePage = () => {
     // reset file input
     event.target.value = null;
 
-    // is now empty
-    // console.log(event.target.files);
-
-    // can still access file object here
-    // console.log(fileObj);
-    // console.log(fileObj.name);
     setFileObject(fileObj);
   };
 
