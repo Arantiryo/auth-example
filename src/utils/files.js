@@ -1,6 +1,16 @@
 import Cookies from "js-cookie";
 import { API } from "@/utils/auth";
 
+export const fetcher = (url) =>
+  fetch(url, {
+    headers: {
+      "token-tt": Cookies.get("token"),
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+
+// export const avatarFetcher = (...args) => getAvatar(...args);
+
 export const toBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
