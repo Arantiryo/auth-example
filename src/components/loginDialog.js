@@ -29,8 +29,6 @@ const LoginDialog = ({ isOpen, setIsOpen }) => {
 
     const response = await loginUser(email, password);
 
-    console.log("response", response);
-
     if (response.ok) {
       Cookies.set("token", response.token);
       redirect("/account/image");
